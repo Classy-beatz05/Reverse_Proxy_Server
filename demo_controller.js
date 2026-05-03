@@ -20,12 +20,12 @@
 const http = require('http');
 const url = require('url');
 
-const PROXY_PORT = 9090;
-const BACKEND_PORT = 8080;
+const PROXY_URL = 'https://orchathon-proxy.onrender.com';
+const BACKEND_URL = 'https://orchathon-backend.onrender.com';
 const DEMO_PORT = process.env.PORT || 3000;
 
 // ── Attack runner ─────────────────────────────────────────────────────────────
-function makeReq({ host = 'localhost', port = PROXY_PORT, method = 'GET', path = '/', body = null, headers = {}, spoofIP = null }) {
+function makeReq({ host = 'orchathon-proxy.onrender.com', port = PROXY_PORT, method = 'GET', path = '/', body = null, headers = {}, spoofIP = null }) {
   return new Promise((resolve) => {
     const opts = {
       hostname: host, port, path, method,
