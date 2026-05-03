@@ -22,6 +22,7 @@
 'use strict';
 
 const http    = require('http');
+const https   = require('https');
 const fs      = require('fs');
 const path    = require('path');
 const url     = require('url');
@@ -258,9 +259,9 @@ function checkHealth() {
   if (!(config.health_check || {}).enabled) return;
   const backendURL = new URL(config.server.backend_url);
   const start = Date.now();
-  const req = http.request({
+  const req = https.request({
     hostname: backendURL.hostname,
-    port:     backendURL.port || 80,
+    port:     backendURL.port || 443,
     path:     (config.health_check || {}).path || '/health',
     method:   'GET',
     timeout:  3000
@@ -449,7 +450,7 @@ const proxyServer = http.createServer((req, res) => {
 
     const proxyOptions = {
       hostname: backendURL.hostname,
-      port:     Number(backendURL.port) || 80,
+      port:     Number(backendURL.port) || 443,
       path:     req.url,
       method:   req.method,
       headers:  {
@@ -463,7 +464,7 @@ const proxyServer = http.createServer((req, res) => {
       timeout
     };
 
-    const proxyReq = http.request(proxyOptions, (proxyRes) => {
+    const proxyReq = https.request(proxyOptions, (proxyRes) => {
       const latency = Date.now() - startTime;
       circuitBreaker.recordSuccess();
       recordSuccess(latency, proxyRes.statusCode, reqPath);
