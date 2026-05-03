@@ -22,7 +22,7 @@ const url = require('url');
 
 const PROXY_PORT = 9090;
 const BACKEND_PORT = 8080;
-const DEMO_PORT = 3000;
+const DEMO_PORT = process.env.PORT || 3000;
 
 // ── Attack runner ─────────────────────────────────────────────────────────────
 function makeReq({ host = 'localhost', port = PROXY_PORT, method = 'GET', path = '/', body = null, headers = {}, spoofIP = null }) {
