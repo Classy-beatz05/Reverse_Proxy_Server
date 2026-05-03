@@ -961,15 +961,15 @@ function formatUptime(s) {
 }
 
 // ─── Start Servers ────────────────────────────────────────────────────────────
-const PROXY_PORT     = config.server.listen_port    || 9090;
-const DASHBOARD_PORT = config.server.dashboard_port || 9091;
+const PROXY_PORT = process.env.PORT || config.server.listen_port || 9090;
+const DASHBOARD_PORT = process.env.PORT || config.server.dashboard_port || 9091;
 
 proxyServer.listen(PROXY_PORT, () => {
   log('INFO', 'Proxy', `Proxy listening on port ${PROXY_PORT}`);
 });
 
 dashboardServer.listen(DASHBOARD_PORT, () => {
-  log('INFO', 'Dashboard', `Dashboard at http://localhost:${DASHBOARD_PORT}`);
+  log('INFO', 'Dashboard', `Dashboard at port ${DASHBOARD_PORT}`);
 });
 
 // Graceful shutdown
