@@ -259,6 +259,7 @@ function checkHealth() {
   if (!(config.health_check || {}).enabled) return;
   const backendURL = new URL(config.server.backend_url);
   const start = Date.now();
+  const client = backendURL.protocol === 'https:' ? https : http;
   const req = https.request({
     hostname: backendURL.hostname,
     port:     backendURL.port || 443,
@@ -457,14 +458,14 @@ const proxyServer = http.createServer((req, res) => {
         ...req.headers,
         host:               backendURL.host,
         'x-forwarded-for':  clientIP,
-        'x-forwarded-proto':'http',
+        'x-forwarded-proto': backendURL.protocol.replace(':',''),
         'x-request-id':     requestId,
         'x-real-ip':        clientIP
       },
       timeout
     };
 
-    const proxyReq = https.request(proxyOptions, (proxyRes) => {
+    const proxyReq = client.request(proxyOptions, (proxyRes) => {
       const latency = Date.now() - startTime;
       circuitBreaker.recordSuccess();
       recordSuccess(latency, proxyRes.statusCode, reqPath);
