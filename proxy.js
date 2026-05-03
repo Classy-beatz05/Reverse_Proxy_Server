@@ -454,13 +454,12 @@ const proxyServer = http.createServer((req, res) => {
       port:     Number(backendURL.port) || 443,
       path:     req.url,
       method:   req.method,
-      headers:  {
+      headers: {
         ...req.headers,
-        host:               backendURL.host,
-        'x-forwarded-for':  clientIP,
-        'x-forwarded-proto': backendURL.protocol.replace(':',''),
-        'x-request-id':     requestId,
-        'x-real-ip':        clientIP
+        'x-forwarded-for': clientIP,
+        'x-forwarded-proto': 'https',
+        'x-request-id': requestId,
+        'x-real-ip': clientIP
       },
       timeout
     };
