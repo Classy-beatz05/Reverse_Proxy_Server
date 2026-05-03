@@ -260,7 +260,7 @@ function checkHealth() {
   const backendURL = new URL(config.server.backend_url);
   const start = Date.now();
   const client = backendURL.protocol === 'https:' ? https : http;
-  const req = https.request({
+  const req = client.request({
     hostname: backendURL.hostname,
     port:     backendURL.port || 443,
     path:     (config.health_check || {}).path || '/health',
@@ -496,7 +496,8 @@ const proxyServer = http.createServer((req, res) => {
     proxyReq.on('error', (err) => {
       circuitBreaker.recordFailure();
       recordError();
-      log('ERROR', 'Proxy', `Backend error: ${err.message}`, { requestId });
+      log('ERROR', 'Proxy', `Backend error: ${err.stack || err.message}`, { requestId });
+      console.error(err);
       if (!res.headersSent) {
         res.writeHead(502, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Bad Gateway', reason: err.message, requestId }));
