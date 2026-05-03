@@ -463,7 +463,8 @@ const proxyServer = http.createServer((req, res) => {
       },
       timeout
     };
-
+    const client = backendURL.protocol === 'https:' ? https : http;
+    
     const proxyReq = client.request(proxyOptions, (proxyRes) => {
       const latency = Date.now() - startTime;
       circuitBreaker.recordSuccess();
