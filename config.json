@@ -1,7 +1,7 @@
 {
   "server": {
     "listen_port": 9090,
-    "backend_url": "https://orchathon-backend.onrender.com"
+    "backend_url": "https://orchathon-backend.onrender.com",
     "dashboard_port": 9091,
     "request_timeout_ms": 10000,
     "max_body_size_bytes": 1048576
