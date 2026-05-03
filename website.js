@@ -317,8 +317,8 @@ const server = http.createServer(async (req, res) => {
 
   json(res, 404, { error: 'Not found', path: reqPath });
 });
-
-server.listen(8080, () => {
+const PORT = process.env.PORT || 8080;
+server.listen(PORT, () => {
   console.log('╔═══════════════════════════════════════════════╗');
   console.log('║  ShopSecure Backend running on port 8080      ║');
   console.log('║  Visit: http://localhost:8080                 ║');
