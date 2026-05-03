@@ -25,7 +25,7 @@ const BACKEND_URL = 'https://orchathon-backend.onrender.com';
 const DEMO_PORT = process.env.PORT || 3000;
 
 // ── Attack runner ─────────────────────────────────────────────────────────────
-function makeReq({ host = 'orchathon-proxy.onrender.com', port = PROXY_PORT, method = 'GET', path = '/', body = null, headers = {}, spoofIP = null }) {
+function makeReq({ host = 'orchathon-proxy.onrender.com', port = 443, method = 'GET', path = '/', body = null, headers = {}, spoofIP = null }) {
   return new Promise((resolve) => {
     const opts = {
       hostname: host, port, path, method,
@@ -1470,11 +1470,11 @@ function demoHTML() {
     <div class="panel site-panel" id="a-site-panel">
       <div class="panel-header">
         <div class="panel-title blue">① Website — No Protection</div>
-        <div class="panel-status" style="color:var(--red)">http://localhost:8080 — DIRECT · NO PROXY</div>
+        <div class="panel-status" style="color:var(--red)">https://orchathon-backend.onrender.com — DIRECT · NO PROXY</div>
       </div>
       <div class="attack-overlay" id="a-atk-overlay"></div>
       <div class="attack-text" id="a-atk-text">UNDER ATTACK</div>
-      <iframe class="site-frame" id="a-site-frame" src="http://localhost:8080"></iframe>
+      <iframe class="site-frame" id="a-site-frame" src="https://orchathon-backend.onrender.com"></iframe>
     </div>
 
     <!-- CENTER: Attack Console (unprotected) -->
@@ -1508,10 +1508,10 @@ function demoHTML() {
     <div class="panel">
       <div class="panel-header">
         <div class="panel-title green">③ Proxy Shield Dashboard</div>
-        <div class="panel-status" style="color:var(--muted)">http://localhost:9091 — monitoring</div>
+        <div class="panel-status" style="color:var(--muted)">https://orchathon-proxy.onrender.com — monitoring</div>
         <button onclick="resetDashboard('b')" style="margin-left:8px;padding:3px 10px;border-radius:4px;font-family:var(--mono);font-size:10px;cursor:pointer;background:rgba(0,255,136,.08);color:var(--green);border:1px solid rgba(0,255,136,.3);">↺ RESTART</button>
       </div>
-      <iframe class="dash-frame" id="b-dash-frame" src="http://localhost:9091"></iframe>
+      <iframe class="dash-frame" id="b-dash-frame" src="https://orchathon-proxy.onrender.com"></iframe>
     </div>
 
   </div>
@@ -1527,11 +1527,11 @@ function demoHTML() {
     <div class="panel site-panel" id="b-site-panel">
       <div class="panel-header">
         <div class="panel-title blue">① Website — Proxy Protected</div>
-        <div class="panel-status" style="color:var(--green)">http://localhost:9090 — VIA ORCHPROXY · SHIELDED</div>
+        <div class="panel-status" style="color:var(--green)">https://orchathon-proxy.onrender.com — VIA ORCHPROXY · SHIELDED</div>
       </div>
       <div class="attack-overlay" id="b-atk-overlay"></div>
       <div class="attack-text" id="b-atk-text">ATTACK BLOCKED ✓</div>
-      <iframe class="site-frame" id="b-site-frame" src="http://localhost:9090"></iframe>
+      <iframe class="site-frame" id="b-site-frame" src="https://orchathon-proxy.onrender.com"></iframe>
     </div>
 
     <!-- CENTER: Attack Console (protected) -->
@@ -1565,10 +1565,10 @@ function demoHTML() {
     <div class="panel">
       <div class="panel-header">
         <div class="panel-title green">③ Proxy Shield Dashboard</div>
-        <div class="panel-status" style="color:var(--green)">http://localhost:9091 — LIVE</div>
+        <div class="panel-status" style="color:var(--green)">https://orchathon-proxy.onrender.com — LIVE</div>
         <button onclick="resetDashboard('a')" style="margin-left:8px;padding:3px 10px;border-radius:4px;font-family:var(--mono);font-size:10px;cursor:pointer;background:rgba(0,255,136,.08);color:var(--green);border:1px solid rgba(0,255,136,.3);">↺ RELOAD</button>
       </div>
-      <iframe class="dash-frame" id="b-dash-frame" src="http://localhost:9091"></iframe>
+      <iframe class="dash-frame" id="b-dash-frame" src="https://orchathon-proxy.onrender.com"></iframe>
     </div>
 
   </div>
@@ -1639,7 +1639,7 @@ async function attack(type, v) {
   document.getElementById(v+'-atk-status').textContent = 'running '+labels[type]+'…';
 
   if (isHostile) showGlitch(v, true, labels[type].toUpperCase()+' IN PROGRESS');
-  addSysLog(v, '▶ Starting: '+labels[type]+' → '+(useProxy?'localhost:9090 (PROXY)':'localhost:8080 (DIRECT)'), 'info');
+  addSysLog(v, '▶ Starting: '+labels[type]+' → '+(useProxy?'orchathon-proxy.onrender.com':'orchathon-backend.onrender.com'), 'info');
 
   try {
     const r = await fetch('/run-attack', {
