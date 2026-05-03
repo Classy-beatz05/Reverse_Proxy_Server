@@ -1,0 +1,8 @@
+{
+    "name": "orchathon",
+    "version": "1.0.0",
+    "main": "demo_controller.js",
+    "scripts": {
+        "start": "node demo_controller.js"
+    }
+}
